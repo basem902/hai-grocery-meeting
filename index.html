@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0f5c44">
+<meta name="description" content="ورقة اجتماع — كيف نحمي سلة الحي اليومية قبل أن تنتقل للتطبيقات. مرتّبة بترتيب الاجتماع، مع حاسبة حيّة.">
+<title>ورقة اجتماع — سلسلة بقالات عبدالحافظ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f4f6f4; --ink:#13211c; --muted:#5a6b63; --soft:#7d8b84;
+    --primary:#0f5c44; --primary-2:#0a4332; --primary-soft:#e7f1ec;
+    --gold:#b8862b; --gold-soft:#f7edd6;
+    --green-bg:#dcf3e5; --green-ink:#0c6e46;
+    --amber-bg:#fcefcf; --amber-ink:#8a5d00;
+    --danger:#b3261e; --danger-bg:#fbe6e4;
+    --card:#ffffff; --line:#e4eae6; --line-2:#eef2f0;
+    --radius:20px; --radius-sm:13px;
+    --shadow:0 1px 2px rgba(16,40,30,.04), 0 8px 24px rgba(16,40,30,.06);
+    --shadow-lg:0 12px 40px rgba(16,40,30,.12);
+    --maxw:780px;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Tajawal","Segoe UI",Tahoma,system-ui,sans-serif;
+    font-size:17px;line-height:1.85;letter-spacing:0;
+    text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--primary);color:#fff}
+  a{color:var(--primary);text-decoration:none}
+
+  /* progress bar */
+  #progress{position:fixed;top:0;right:0;height:4px;width:0;z-index:60;
+    background:linear-gradient(90deg,var(--gold),#e0b94f);transition:width .12s ease-out}
+
+  /* top bar */
+  .topbar{position:sticky;top:0;z-index:50;background:rgba(244,246,244,.86);
+    backdrop-filter:saturate(160%) blur(12px);border-bottom:1px solid var(--line);}
+  .topbar-in{max-width:var(--maxw);margin:0 auto;padding:11px 18px;
+    display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .brand{display:flex;align-items:center;gap:9px;font-weight:800;color:var(--primary-2);font-size:16px}
+  .brand .dot{width:11px;height:11px;border-radius:50%;
+    background:radial-gradient(circle at 30% 30%,#1c8a64,var(--primary));box-shadow:0 0 0 4px var(--primary-soft)}
+  .topbar .tag{font-size:12.5px;color:var(--muted);font-weight:500}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 18px 80px}
+
+  /* hero */
+  .hero{position:relative;overflow:hidden;border-radius:0 0 30px 30px;
+    background:linear-gradient(155deg,#0f5c44 0%,#0a4332 60%,#073227 100%);
+    color:#eafff5;padding:46px 22px 40px;margin-bottom:26px;box-shadow:var(--shadow-lg)}
+  .hero::before{content:"";position:absolute;inset:0;opacity:.10;
+    background:radial-gradient(circle at 85% 12%,#fff 0,transparent 38%),
+              radial-gradient(circle at 8% 92%,var(--gold) 0,transparent 34%)}
+  .hero-in{position:relative;max-width:var(--maxw);margin:0 auto}
+  .eyebrow{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;
+    letter-spacing:.4px;color:#bfe9d6;background:rgba(255,255,255,.10);
+    padding:6px 13px;border-radius:999px;border:1px solid rgba(255,255,255,.16);margin-bottom:16px}
+  .hero h1{font-size:30px;line-height:1.35;font-weight:900;margin:0 0 12px;color:#fff;letter-spacing:-.3px}
+  .hero h1 .hl{color:#ffd778}
+  .hero p.sub{font-size:17px;color:#cdeede;margin:0 0 20px;font-weight:500;max-width:42ch}
+  .hero-meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+  .chip{display:inline-flex;align-items:center;gap:7px;font-size:13.5px;font-weight:600;
+    background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);
+    color:#eafff5;padding:7px 13px;border-radius:12px}
+  .chip b{color:#fff;font-weight:800}
+
+  /* legend */
+  .legend{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 4px}
+  .lg{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700;
+    padding:5px 11px;border-radius:999px}
+  .lg.green{background:var(--green-bg);color:var(--green-ink)}
+  .lg.amber{background:var(--amber-bg);color:var(--amber-ink)}
+  .lg .sq{width:9px;height:9px;border-radius:3px}
+  .lg.green .sq{background:var(--green-ink)} .lg.amber .sq{background:var(--amber-ink)}
+
+  /* map / toc */
+  .toc{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:18px 18px 8px;box-shadow:var(--shadow);margin-bottom:30px}
+  .toc h3{margin:0 0 4px;font-size:15px;color:var(--muted);font-weight:700}
+  .toc .hint{font-size:13px;color:var(--soft);margin:0 0 12px}
+  .toc ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .toc a{display:flex;align-items:center;gap:10px;padding:10px 11px;border-radius:12px;
+    border:1px solid var(--line-2);color:var(--ink);font-weight:600;font-size:14px;background:#fafcfb}
+  .toc a:active{background:var(--primary-soft)}
+  .toc a .n{flex:none;width:26px;height:26px;border-radius:8px;background:var(--primary-soft);
+    color:var(--primary-2);font-weight:800;font-size:13px;display:grid;place-items:center}
+
+  /* sections */
+  section{margin:34px 0;scroll-margin-top:74px}
+  .sec-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:16px}
+  .sec-num{flex:none;font-size:13px;font-weight:900;color:#fff;background:var(--primary);
+    width:38px;height:38px;border-radius:12px;display:grid;place-items:center;
+    box-shadow:0 6px 16px rgba(15,92,68,.28);letter-spacing:.5px}
+  .sec-head h2{margin:0;font-size:22px;font-weight:900;line-height:1.4;letter-spacing:-.2px}
+  .sec-head .kicker{display:block;font-size:13px;font-weight:700;color:var(--gold);margin-bottom:2px}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:20px;box-shadow:var(--shadow)}
+  .card + .card{margin-top:14px}
+  p{margin:0 0 12px} p:last-child{margin-bottom:0}
+  .lead{font-size:17.5px}
+
+  /* callouts */
+  .callout{border-radius:var(--radius-sm);padding:15px 17px;margin:14px 0;
+    border-right:5px solid var(--primary);background:var(--primary-soft);font-weight:600}
+  .callout.gold{border-color:var(--gold);background:var(--gold-soft)}
+  .callout.warn{border-color:var(--danger);background:var(--danger-bg)}
+  .callout .lbl{display:block;font-size:12.5px;font-weight:800;letter-spacing:.3px;
+    color:var(--primary-2);margin-bottom:5px}
+  .callout.gold .lbl{color:#8a6418} .callout.warn .lbl{color:var(--danger)}
+
+  /* quote / anchor line */
+  .quote{position:relative;background:linear-gradient(160deg,#0f5c44,#0a4332);color:#eafff5;
+    border-radius:var(--radius);padding:22px 22px 22px 22px;margin:16px 0;font-size:18.5px;
+    font-weight:700;line-height:1.7;box-shadow:var(--shadow-lg)}
+  .quote::before{content:"\201D";position:absolute;top:2px;left:16px;font-size:64px;
+    color:rgba(255,215,120,.4);font-family:Georgia,serif;line-height:1}
+  .quote .who{display:block;margin-top:10px;font-size:13px;font-weight:600;color:#ffd778}
+
+  /* stat grid */
+  .stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:8px 0}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-sm);
+    padding:15px 15px 14px;box-shadow:var(--shadow);position:relative}
+  .stat .big{font-size:26px;font-weight:900;color:var(--primary-2);line-height:1.1;letter-spacing:-.5px}
+  .stat .lbl{font-size:13.5px;color:var(--muted);font-weight:600;margin-top:5px}
+  .stat .src{margin-top:9px}
+  .badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:800;
+    padding:3px 9px;border-radius:999px}
+  .badge.green{background:var(--green-bg);color:var(--green-ink)}
+  .badge.amber{background:var(--amber-bg);color:var(--amber-ink)}
+  .stat.threat .big{color:var(--danger)}
+
+  /* question groups */
+  .qgroup{margin:14px 0}
+  .qgroup h4{font-size:15px;margin:0 0 9px;color:var(--primary-2);font-weight:800;
+    display:flex;align-items:center;gap:8px}
+  .qgroup h4 .pill{font-size:11px;font-weight:700;background:var(--primary-soft);
+    color:var(--primary-2);padding:3px 9px;border-radius:999px}
+  ul.q{list-style:none;margin:0;padding:0}
+  ul.q li{position:relative;padding:10px 30px 10px 12px;border:1px solid var(--line-2);
+    border-radius:12px;margin-bottom:8px;background:#fafcfb;font-weight:500;font-size:15.5px}
+  ul.q li::before{content:"";position:absolute;top:17px;right:13px;width:7px;height:7px;
+    border-radius:50%;background:var(--primary)}
+  ul.q li.star{background:#fff8e9;border-color:#f1dca6}
+  ul.q li.star::before{background:var(--gold)}
+  ul.q li .s{color:var(--gold);font-weight:800}
+
+  /* calculator */
+  .calc{background:linear-gradient(170deg,#ffffff,#f3f8f5);border:1px solid var(--line);
+    border-radius:var(--radius);padding:18px;box-shadow:var(--shadow-lg)}
+  .calc .note{font-size:13.5px;color:var(--muted);margin:0 0 14px;
+    background:var(--gold-soft);border-radius:11px;padding:10px 12px;font-weight:600;border-right:4px solid var(--gold)}
+  .fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .field label{display:block;font-size:13px;font-weight:700;color:var(--muted);margin-bottom:5px}
+  .field .inwrap{position:relative;display:flex;align-items:center}
+  .field input{width:100%;font-family:inherit;font-size:18px;font-weight:800;color:var(--primary-2);
+    padding:11px 12px;border:2px solid #f0a93d;border-radius:11px;background:#fffaf2;outline:none;
+    transition:border-color .15s,box-shadow .15s;text-align:center}
+  .field input:focus{border-color:#e07c00;box-shadow:0 0 0 4px rgba(240,169,61,.18)}
+  .field .unit{font-size:11.5px;color:var(--soft);font-weight:700;margin-top:4px;text-align:center}
+
+  .results{margin-top:18px;display:grid;gap:11px}
+  .res{display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding:14px 16px;border-radius:13px;border:1px solid var(--line)}
+  .res .rl{font-size:14.5px;font-weight:700;color:var(--ink)}
+  .res .rl small{display:block;font-size:11.5px;color:var(--soft);font-weight:600}
+  .res .rv{font-size:21px;font-weight:900;letter-spacing:-.4px;white-space:nowrap}
+  .res.ctx{background:#f7faf8} .res.ctx .rv{color:var(--primary-2)}
+  .res.bad{background:var(--danger-bg);border-color:#f1c9c5} .res.bad .rv{color:var(--danger)}
+  .res.hero-res{background:linear-gradient(160deg,#0f5c44,#0a4332);border:0}
+  .res.hero-res .rl{color:#cdeede} .res.hero-res .rl small{color:#9fd3bd}
+  .res.hero-res .rv{color:#ffd778;font-size:24px}
+  .calc-actions{margin-top:14px;text-align:left}
+  .btn-reset{font-family:inherit;font-size:13px;font-weight:700;color:var(--muted);
+    background:#fff;border:1px solid var(--line);padding:8px 16px;border-radius:10px;cursor:pointer}
+  .btn-reset:active{background:var(--primary-soft)}
+
+  /* mapping table */
+  .maptab{width:100%;border-collapse:separate;border-spacing:0;font-size:15px;
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
+  .maptab th{background:var(--primary);color:#fff;font-weight:800;font-size:13.5px;padding:12px 14px;text-align:right}
+  .maptab td{padding:13px 14px;border-top:1px solid var(--line-2);vertical-align:top}
+  .maptab td:first-child{font-weight:700;color:var(--danger);width:44%}
+  .maptab td:last-child{color:var(--primary-2);font-weight:600}
+  .maptab tr:nth-child(even) td{background:#fafcfb}
+
+  /* ecosystem cards */
+  .eco{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:6px}
+  .eco .e{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-sm);
+    padding:14px;box-shadow:var(--shadow)}
+  .eco .e .ic{font-size:22px;margin-bottom:6px;display:block}
+  .eco .e h5{margin:0 0 3px;font-size:15px;font-weight:800;color:var(--primary-2)}
+  .eco .e p{font-size:13px;color:var(--muted);margin:0;font-weight:500;line-height:1.6}
+
+  /* pilot steps */
+  .pilot{counter-reset:p}
+  .pstep{display:flex;gap:13px;padding:13px 0;border-bottom:1px dashed var(--line)}
+  .pstep:last-child{border-bottom:0}
+  .pstep .pn{counter-increment:p;flex:none;width:30px;height:30px;border-radius:9px;
+    background:var(--gold-soft);color:#8a6418;font-weight:900;display:grid;place-items:center;font-size:14px}
+  .pstep .pn::before{content:counter(p)}
+  .pstep .pc h5{margin:0 0 2px;font-size:15.5px;font-weight:800}
+  .pstep .pc p{margin:0;font-size:14px;color:var(--muted);font-weight:500}
+
+  /* objections accordion */
+  details.obj{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-sm);
+    margin-bottom:10px;box-shadow:var(--shadow);overflow:hidden}
+  details.obj summary{cursor:pointer;list-style:none;padding:15px 16px;font-weight:800;font-size:15.5px;
+    color:var(--danger);display:flex;align-items:center;justify-content:space-between;gap:10px}
+  details.obj summary::-webkit-details-marker{display:none}
+  details.obj summary .arw{flex:none;width:24px;height:24px;border-radius:50%;background:var(--danger-bg);
+    color:var(--danger);display:grid;place-items:center;font-size:14px;transition:transform .2s}
+  details.obj[open] summary .arw{transform:rotate(45deg)}
+  details.obj .ans{padding:0 16px 16px;font-size:15px;font-weight:500;color:var(--ink);line-height:1.8}
+  details.obj .ans::before{content:"الرد:";display:block;font-size:12px;font-weight:800;color:var(--primary);margin-bottom:5px}
+
+  /* say / dont say */
+  .says{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .saybox{border-radius:var(--radius-sm);padding:15px;border:1px solid var(--line)}
+  .saybox.do{background:var(--green-bg);border-color:#bfe6cf}
+  .saybox.dont{background:var(--danger-bg);border-color:#f1c9c5}
+  .saybox h5{margin:0 0 10px;font-size:15px;font-weight:900;display:flex;align-items:center;gap:7px}
+  .saybox.do h5{color:var(--green-ink)} .saybox.dont h5{color:var(--danger)}
+  .saybox ul{margin:0;padding:0;list-style:none}
+  .saybox li{font-size:14px;font-weight:600;padding:6px 0;border-top:1px solid rgba(0,0,0,.05);line-height:1.6}
+  .saybox li:first-child{border-top:0}
+
+  /* power lines */
+  .lines{display:grid;gap:10px}
+  .pline{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-sm);
+    padding:14px 16px 14px 14px;box-shadow:var(--shadow);font-size:16px;font-weight:700;
+    line-height:1.7;border-right:5px solid var(--gold)}
+
+  /* sources */
+  .src-list{display:grid;gap:8px}
+  .src-item{display:flex;align-items:center;gap:10px;font-size:14px;background:var(--card);
+    border:1px solid var(--line);border-radius:11px;padding:10px 13px}
+  .src-item .badge{flex:none}
+  .src-item a{font-weight:700;word-break:break-word}
+
+  footer{text-align:center;color:var(--soft);font-size:13px;margin-top:38px;
+    padding-top:22px;border-top:1px solid var(--line)}
+  footer b{color:var(--muted)}
+
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (max-width:560px){
+    body{font-size:16px}
+    .hero h1{font-size:25px} .hero{padding:38px 18px 34px}
+    .toc ol{grid-template-columns:1fr}
+    .stats{grid-template-columns:1fr} .eco{grid-template-columns:1fr}
+    .fields{grid-template-columns:1fr 1fr}
+    .says{grid-template-columns:1fr}
+    .sec-head h2{font-size:20px}
+    .maptab{font-size:14px} .maptab td:first-child{width:46%}
+    .res .rv{font-size:19px}
+  }
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+
+  @media print{
+    #progress,.topbar,.toc .hint,.btn-reset{display:none!important}
+    body{background:#fff;font-size:12pt}
+    .hero{box-shadow:none;color:#000;background:#fff;border:1px solid #ccc;border-radius:0}
+    .hero h1,.hero p.sub,.eyebrow,.chip{color:#000}
+    .quote,.res.hero-res,.res.hero-res .rv{background:#fff!important;color:#000!important;border:1px solid #999}
+    .card,.stat,.calc,.maptab,details.obj{box-shadow:none;break-inside:avoid}
+    details.obj[open] .ans,details.obj .ans{display:block}
+    details.obj{border:1px solid #ccc}
+    section{break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+<div id="progress"></div>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="brand"><span class="dot"></span>تطبيق الحي</div>
+    <span class="tag">ورقة اجتماع — للاستخدام أثناء الجلسة</span>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-in">
+    <span class="eyebrow">◷ اجتماع تشخيصي — لا عرض بيع</span>
+    <h1>كيف نحمي <span class="hl">سلة الحي اليومية</span><br>قبل أن تنتقل للتطبيقات</h1>
+    <p class="sub">ورقتك أثناء الجلسة مع الأستاذ عبدالحافظ — مرتّبة بترتيب الاجتماع، انزل معها خطوة بخطوة.</p>
+    <div class="hero-meta">
+      <span class="chip">👤 <b>سلسلة بقالات عبدالحافظ</b></span>
+      <span class="chip">🎯 الهدف: <b>فرع واحد · 30 يوم</b></span>
+      <span class="chip">🗣️ <b>اسمع 70٪ · تكلّم 30٪</b></span>
+    </div>
+    <div class="legend">
+      <span class="lg green"><span class="sq"></span>رقم موثّق سعودي — قُله بثقة</span>
+      <span class="lg amber"><span class="sq"></span>تشبيه/معيار عالمي — قُله كـ «في أسواق مشابهة»</span>
+    </div>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <nav class="toc reveal" aria-label="خريطة الاجتماع">
+    <h3>خريطة الاجتماع</h3>
+    <p class="hint">اضغط أي خطوة للقفز إليها. الترتيب = ترتيب الجلسة.</p>
+    <ol>
+      <li><a href="#s1"><span class="n">01</span>القاعدة الذهبية</a></li>
+      <li><a href="#s2"><span class="n">02</span>النبرة الصحيحة</a></li>
+      <li><a href="#s3"><span class="n">03</span>صورة السوق</a></li>
+      <li><a href="#s4"><span class="n">04</span>سلاحك: المنظومة</a></li>
+      <li><a href="#s5"><span class="n">05</span>اسحب الألم</a></li>
+      <li><a href="#s6"><span class="n">06</span>حوّله إلى ريال</a></li>
+      <li><a href="#s7"><span class="n">07</span>اربط الحل</a></li>
+      <li><a href="#s8"><span class="n">08</span>تجربة 30 يوم</a></li>
+      <li><a href="#s9"><span class="n">09</span>اعتراضات جاهزة</a></li>
+      <li><a href="#s10"><span class="n">10</span>جمل + قل/لا تقل</a></li>
+    </ol>
+  </nav>
+
+  <!-- 01 -->
+  <section id="s1" class="reveal">
+    <div class="sec-head"><div class="sec-num">01</div>
+      <div><span class="kicker">قبل أن تدخل</span><h2>القاعدة الذهبية</h2></div></div>
+    <div class="card">
+      <p class="lead">لا تدخل كأنك تبيع تطبيقاً. ادخل كأنك تناقش معه: <b>كيف نحمي علاقته بعميل الحي قبل أن تأخذها المنصات.</b></p>
+      <div class="callout"><span class="lbl">النسبة الذهبية</span>
+        أنت تتكلم <b>30٪</b> والباقي له. أكبر خطأ أن تعرض المنتج في البداية. اجتماع التشخيص الناجح بالكاد يذكر منتجك.</div>
+      <div class="callout gold"><span class="lbl">هدف الجلسة</span>
+        ليس توقيعاً اليوم — بل: <b>تاريخ للقاء قادم + اختيار الفرع الأقوى</b> للتجربة. هذا فقط نجاح.</div>
+      <div class="callout warn"><span class="lbl">تحقّق قبل أن تدخل</span>
+        هل كيتا / نون مينتس / هنغرستيشن تُوصّل فعلاً في أحياء فروعه تحديداً؟ اسأله.
+        لم تصل بعد ← «<b>نقفل علاقتك قبل وصولهم</b>». وصلت ← «<b>أنت تنزف عادة الآن، نوقف النزيف</b>».</div>
+    </div>
+  </section>
+
+  <!-- 02 -->
+  <section id="s2" class="reveal">
+    <div class="sec-head"><div class="sec-num">02</div>
+      <div><span class="kicker">الإطار</span><h2>النبرة الصحيحة</h2></div></div>
+    <div class="card">
+      <p>لا تخوّفه كأن كيتا ونون سيأكلونه غداً، ولا تطمئنه كأنهم سينهارون. الحقيقة في المنتصف:</p>
+      <div class="quote">المنصة تأخذ منك شيئين: العمولة والعميل. العمولة واضحة — لكن العميل أخطر. إذا تعوّد يطلب حليبه ومويه وبيضه من التطبيق، أنت ما فقدتَ طلباً… فقدتَ <b>عادة</b>.
+        <span class="who">— هذه جملة الارتكاز. ابنِ عليها</span></div>
+      <p style="margin-top:14px">النموذج السريع <b>مكلف وصعب الربحية على السلة الصغيرة</b> — لكن لا تظن أنهم كلهم سينهارون: الأقوياء (كيتا، نون، هنغرستيشن، جاهز) باقون ويتركّزون. لذلك خطرهم ليس السعر — خطرهم <b>تغيير العادة وأخذ البيانات وهم يدعمون</b>. معركتنا أن نقفل العادة والعلاقة لك أولاً.</p>
+    </div>
+  </section>
+
+  <!-- 03 -->
+  <section id="s3" class="reveal">
+    <div class="sec-head"><div class="sec-num">03</div>
+      <div><span class="kicker">الذخيرة</span><h2>الصورة الحقيقية للسوق</h2></div></div>
+    <div class="card" style="margin-bottom:14px">
+      <p style="margin:0">سلتك اليومية هي ساحة المعركة: <b>البقالة والأساسيات أكبر فئة</b> في التوصيل السريع، والمستودعات المظلمة تُوضع عمداً <b>داخل 3 كم</b> من الأحياء لاصطياد الطلب الصغير المتكرر.</p>
+    </div>
+    <div class="stats">
+      <div class="stat threat"><div class="big">مليار ريال</div><div class="lbl">حرب كيتا (ميتوان) في السعودية — توصيل 15 دقيقة وعروض إغراق بريال</div><div class="src"><span class="badge green">✓ موثّق سعودي</span></div></div>
+      <div class="stat threat"><div class="big">~10٪</div><div class="lbl">حصة كيتا من السوق خلال ~4 أشهر فقط من دخولها</div><div class="src"><span class="badge green">✓ موثّق سعودي</span></div></div>
+      <div class="stat threat"><div class="big">+7000</div><div class="lbl">منتج في هنغرستيشن Quick Market · +10 مليون طلب · تغطية ~95٪</div><div class="src"><span class="badge green">✓ موثّق سعودي</span></div></div>
+      <div class="stat threat"><div class="big">نون + جاهز</div><div class="lbl">شراكة أكتوبر 2025 = سوبر-آب واحد للأكل والمقاضي</div><div class="src"><span class="badge green">✓ موثّق سعودي</span></div></div>
+      <div class="stat"><div class="big">~33٪</div><div class="lbl">من غذاء السعودية يُهدر (~40 مليار ريال/سنة) — وزارة البيئة</div><div class="src"><span class="badge green">✓ موثّق سعودي</span></div></div>
+      <div class="stat"><div class="big">~18٪</div><div class="lbl">متوسط عمولة تطبيقات التوصيل السعودية (15–23٪) — بيانات 2021</div><div class="src"><span class="badge green">✓ موثّق · اذكر التاريخ</span></div></div>
+    </div>
+    <div class="callout warn" style="margin-top:16px"><span class="lbl">انتبه — لا تخلط الأسماء</span>
+      <b>نانا (Nana)</b> — شركة سعودية جمعت 208 مليون دولار — <b>هي</b> التي دخلت إعادة هيكلة بإشراف المحكمة (أبريل 2026). أما <b>نون (noon)</b> فحيّة وقوية. قول «نون دخلت محكمة» يهدم تصديقك فوراً.</div>
+    <div class="card" style="margin-top:14px">
+      <p style="margin:0 0 10px;font-weight:800;color:var(--primary-2)">للتطمين فقط — قدّمها كتشبيه، لا كرقم سعودي:</p>
+      <div class="stats" style="margin:0">
+        <div class="stat"><div class="big">~90٪</div><div class="lbl">بقالات الهند لا تزال تملك السوق رغم Blinkit/Zepto — السلة الصغيرة غير مربحة للتطبيقات</div><div class="src"><span class="badge amber">≈ تشبيه عالمي</span></div></div>
+        <div class="stat"><div class="big">1–3٪</div><div class="lbl">صافي هامش البقالة (عالمي) — أي تسرّب يأكل الربح كله</div><div class="src"><span class="badge amber">≈ تشبيه عالمي</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 -->
+  <section id="s4" class="reveal">
+    <div class="sec-head"><div class="sec-num">04</div>
+      <div><span class="kicker">ميزتك التي لا يملكونها</span><h2>سلاحك: المنظومة الكاملة</h2></div></div>
+    <div class="card" style="margin-bottom:14px">
+      <p style="margin:0">قُل له بوضوح: <b>«لا أطلب منك أن تبني شيئاً. منظومة الدفاع جاهزة — نشغّلها على فرع واحد ونثبت لك.»</b> صاحب سلسلة فروع هو العميل المثالي: التقارير متعددة الفروع وشبكة التوصيل تحتاج حجماً، وهو يملكه.</p>
+    </div>
+    <div class="eco">
+      <div class="e"><span class="ic">📱</span><h5>تطبيق العميل</h5><p>يطلب منك مباشرة — تملك العلاقة، لا تستأجرها من المنصة.</p></div>
+      <div class="e"><span class="ic">🛵</span><h5>تطبيق السائق + التوزيع</h5><p>شبكة توصيل <b>باسمك</b> للحي، بحد أدنى مربح للطلب.</p></div>
+      <div class="e"><span class="ic">🎁</span><h5>الولاء وملفات العملاء</h5><p>تعرف من توقّف وتسترجعه — بياناتك أنت.</p></div>
+      <div class="e"><span class="ic">📦</span><h5>مزامنة المخزون</h5><p>لا تبيع أونلاين ما لا يوجد، وتنبيه قبل النفاد.</p></div>
+      <div class="e"><span class="ic">📊</span><h5>تقارير الفروع</h5><p>أي فرع يربح وأيّه ينزف، وأي منتج يربح.</p></div>
+      <div class="e"><span class="ic">🚚</span><h5>بوابة الموزّع</h5><p>طلب وتسعير الجملة لكل فروع السلسلة.</p></div>
+    </div>
+  </section>
+
+  <!-- 05 -->
+  <section id="s5" class="reveal">
+    <div class="sec-head"><div class="sec-num">05</div>
+      <div><span class="kicker">التشخيص</span><h2>اسحب الألم منه</h2></div></div>
+    <div class="card">
+      <p style="margin-bottom:6px">اسأل القليل عن «الوضع»، وركّز على أسئلة «الأثر» — هي ما يجعله يشعر بالخسارة قبل أن تعرض أي حل. <span style="color:var(--gold);font-weight:800">★</span> = الأهم.</p>
+
+      <div class="qgroup"><h4>أ. الوضع <span class="pill">قصير — 3 أسئلة</span></h4>
+        <ul class="q">
+          <li>كم فرع عندك الآن، وأيّها الأقوى؟</li>
+          <li>كيف تأخذ الطلبات اليوم — حضور فقط، أم اتصال وواتساب؟</li>
+          <li>عملاؤك أهل الحي، أم عابرون وعمال أيضاً؟</li>
+        </ul></div>
+
+      <div class="qgroup"><h4>ب. المشكلة <span class="pill">جد الجرح</span></h4>
+        <ul class="q">
+          <li class="star"><span class="s">★</span> لو اختفت مشكلة واحدة بكرة، أيّها تريحك أكثر؟</li>
+          <li class="star"><span class="s">★</span> لما عميل دائم يختفي فجأة — هل تدري أصلاً؟ كيف تكتشفه؟</li>
+          <li>في ليلة زحمة، كم طلب واتساب/اتصال يضيع أو يطلع غلط؟</li>
+          <li>قال لك عميل من قبل «أطلبها من التطبيق» بدل منك؟</li>
+        </ul></div>
+
+      <div class="qgroup"><h4>ج. الأثر <span class="pill">حوّله إلى رقم</span></h4>
+        <ul class="q">
+          <li class="star"><span class="s">★</span> من كل 10 عملاء يدخلون مرة، كم يرجع؟ <i>(اصمت وانتظر تقديره)</i></li>
+          <li class="star"><span class="s">★</span> أسرة كانت تصرف عندك كل أسبوع — لو سحبها التطبيق، كم تساوي عليك في <b>سنة</b>؟</li>
+          <li>كم عميل ما عندك رقم جواله — فلا تقدر تخبره بعرض أو وصول منتجه؟</li>
+          <li>لو دخلت منصة، تعرف كم تأخذ عمولة من كل طلب؟</li>
+        </ul></div>
+
+      <div class="qgroup"><h4>د. الحاجة <span class="pill">خلّه يبيع نفسه الحل</span></h4>
+        <ul class="q">
+          <li class="star"><span class="s">★</span> لو كل عميل دخل مرة عنده سبب يرجع لك أنت — وش يسوي بشهرك؟</li>
+          <li>لو تشوف بجوالك مين توقّف، وتوصله قبل لا يروح — يفيدك؟</li>
+          <li>لو توصّل في الحي باسمك أنت، والعميل يبقى عميلك لا عميل التطبيق — كيف يغيّر وضعك؟</li>
+        </ul></div>
+    </div>
+  </section>
+
+  <!-- 06 -->
+  <section id="s6" class="reveal">
+    <div class="sec-head"><div class="sec-num">06</div>
+      <div><span class="kicker">أقوى لحظة في الجلسة</span><h2>حوّل الألم إلى ريال — حاسبة حيّة</h2></div></div>
+    <div class="calc">
+      <p class="note">🟠 عدّل الخلايا البرتقالية بأرقامه هو أمامه — وتطلع الخسارة فوراً. الرقم الذي <b>ينطقه هو</b> أقوى من أي رقم تقوله أنت.</p>
+      <div class="fields">
+        <div class="field"><label>عدد العملاء/الأسر الدائمين</label><div class="inwrap"><input id="i_cust" type="number" inputmode="numeric" min="0" value="200"></div><div class="unit">عميل</div></div>
+        <div class="field"><label>إنفاق العميل أسبوعياً</label><div class="inwrap"><input id="i_week" type="number" inputmode="numeric" min="0" value="150"></div><div class="unit">ريال / أسبوع</div></div>
+        <div class="field"><label>نسبة المعرّضين للتسرّب سنوياً</label><div class="inwrap"><input id="i_churn" type="number" inputmode="numeric" min="0" max="100" value="15"></div><div class="unit">٪</div></div>
+        <div class="field"><label>متوسط سلة التوصيل</label><div class="inwrap"><input id="i_basket" type="number" inputmode="numeric" min="0" value="50"></div><div class="unit">ريال</div></div>
+        <div class="field"><label>طلبات الواتساب/الاتصال يومياً</label><div class="inwrap"><input id="i_orders" type="number" inputmode="numeric" min="0" value="20"></div><div class="unit">طلب / يوم</div></div>
+        <div class="field"><label>نسبة الطلبات الضائعة في الزحمة</label><div class="inwrap"><input id="i_lost" type="number" inputmode="numeric" min="0" max="100" value="10"></div><div class="unit">٪</div></div>
+        <div class="field"><label>عمولة المنصة لو دخلت</label><div class="inwrap"><input id="i_comm" type="number" inputmode="numeric" min="0" max="100" value="18"></div><div class="unit">٪</div></div>
+      </div>
+      <div class="results">
+        <div class="res ctx"><div class="rl">إيراد عملائك الأوفياء<small>سنوياً — حجم العلاقة التي تحميها</small></div><div class="rv" id="o_loyal">—</div></div>
+        <div class="res bad"><div class="rl">المُعرّض للخطر سنوياً<small>هجرة العادة لو سحبتهم المنصة</small></div><div class="rv" id="o_risk">—</div></div>
+        <div class="res bad"><div class="rl">ضريبة المنصة سنوياً<small>عمولة لو صار طلبك الأساسي عندهم</small></div><div class="rv" id="o_comm">—</div></div>
+        <div class="res bad"><div class="rl">خسارة طلبات الواتساب الضائعة<small>سنوياً — قبل أي تطبيق</small></div><div class="rv" id="o_lost">—</div></div>
+        <div class="res hero-res"><div class="rl">ما يضعه تطبيق الحي تحت حمايتك<small>سنوياً = العلاقة المعرّضة + الطلبات الضائعة</small></div><div class="rv" id="o_total">—</div></div>
+      </div>
+      <div class="calc-actions"><button class="btn-reset" id="reset">↺ إعادة الضبط</button></div>
+    </div>
+    <div class="callout gold" style="margin-top:16px"><span class="lbl">الجملة المحورية بعد الحساب</span>
+      «هذه الأرقام <b>أنت قلتها لا أنا</b>. فالسؤال ليس ‹أبي تطبيق›، بل: مقابل تكلفة طلب ضائع واحد بالأسبوع — هل يستحق حماية علاقتك بمئات الأسر؟»</div>
+  </section>
+
+  <!-- 07 -->
+  <section id="s7" class="reveal">
+    <div class="sec-head"><div class="sec-num">07</div>
+      <div><span class="kicker">من الألم إلى الحل</span><h2>اربط كل ألم بحل جاهز</h2></div></div>
+    <table class="maptab">
+      <thead><tr><th>الخطر / الألم</th><th>الحل الموجود جاهزاً عندك</th></tr></thead>
+      <tbody>
+        <tr><td>المنصة تملك العميل والبيانات</td><td>تطبيق العميل + الولاء → العلاقة تبقى لك</td></tr>
+        <tr><td>المنصة تأخذ التوصيل والعمولة</td><td>تطبيق السائق + التوزيع → توصيل باسمك بحد أدنى مربح</td></tr>
+        <tr><td>فوضى واتساب والمكالمات</td><td>تطبيق العميل + ربط واتساب → طابور طلبات منظّم</td></tr>
+        <tr><td>التسرّب الصامت للعملاء</td><td>بيانات العملاء + التكرار → تعرف من توقّف وتسترجعه</td></tr>
+        <tr><td>نفاد الحليب/الخبز/البيض</td><td>مزامنة المخزون اللحظية + تنبيه قبل النفاد</td></tr>
+        <tr><td>الهدر وقرب انتهاء الصلاحية</td><td>المخزون + التقارير → تنبيهات قبل أن يصير خسارة</td></tr>
+        <tr><td>إدارة سلسلة فروع</td><td>الأدمن + تقارير الفروع → أي فرع يربح وأيّه ينزف</td></tr>
+        <tr><td>شراء الجملة للسلسلة</td><td>بوابة الموزّع → طلب وتسعير من الموردين</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 08 -->
+  <section id="s8" class="reveal">
+    <div class="sec-head"><div class="sec-num">08</div>
+      <div><span class="kicker">اجعل «نعم» أصغر من «لا»</span><h2>تجربة الـ30 يوم</h2></div></div>
+    <div class="card pilot">
+      <div class="pstep"><div class="pn"></div><div class="pc"><h5>فرع واحد فقط</h5><p>الأقوى — لإثبات أسرع. لا يتغير شيء في باقي الفروع.</p></div></div>
+      <div class="pstep"><div class="pn"></div><div class="pc"><h5>30 يوماً ببداية ونهاية</h5><p>«ما نجح؟ نوقف، بلا زعل.»</p></div></div>
+      <div class="pstep"><div class="pn"></div><div class="pc"><h5>أنت تركّب وتدرّب</h5><p>الموظف يتعلّم بنصف ساعة، وأنت على واتساب طوال الشهر. هو لا يلمس شيئاً تقنياً.</p></div></div>
+      <div class="pstep"><div class="pn"></div><div class="pc"><h5>مجاناً للـ30 يوم</h5><p>«أستثمر لأثبت لك، لا لأحاسبك على التجربة.» — يلغي اعتراض السعر.</p></div></div>
+      <div class="pstep"><div class="pn"></div><div class="pc"><h5>مقياس النجاح #1 = مرساة العادة</h5><p>كم عميلاً طلب ولو مرة من قناتك أنت + كم رقم جوال التقطت. هذا ما يكسر هجرة العادة؛ التكرار يأتي بعده.</p></div></div>
+    </div>
+    <div class="quote">ما أريدك تنافس نون ولا كيتا بسعرهم — سباق مكلف. أريدك تنافسهم بما لا يملكونه: ثقة الحي، قرب الفروع، معرفة العميل، والتوصيل باسمك. نجرّبها 30 يوم في فرع واحد ونقيس.<span class="who">— خطاب الإغلاق</span></div>
+  </section>
+
+  <!-- 09 -->
+  <section id="s9" class="reveal">
+    <div class="sec-head"><div class="sec-num">09</div>
+      <div><span class="kicker">كن جاهزاً</span><h2>اعتراضات جاهزة</h2></div></div>
+    <details class="obj"><summary><span>«عندي نظام كاشير.»</span><span class="arw">+</span></summary>
+      <div class="ans">خلّ كاشيرك، هذا يجي فوقه. الكاشير يحاسب اللي واقف قدامك — لكن وش يصير للعميل بعد ما يطلع من الباب؟ مين يرجّعه؟ هذا يحمي العلاقة بعد البيع، لا يستبدل شيئاً.</div></details>
+    <details class="obj"><summary><span>«التوصيل يخسّرني.»</span><span class="arw">+</span></summary>
+      <div class="ans">صح — ولهذا المنصات خطر، مو لأن التوصيل سيّئ. توصيلهم يخسّرك لأنهم يأخذون 18٪+ ويأخذون عميلك. لو ما وصّلت باسمك، يوصّل التطبيق ويأخذ الهامش <b>والعميل</b>. نبدأ بالولاء، والتوصيل اختياري وبشروطك.</div></details>
+    <details class="obj"><summary><span>«عملائي يتصلون عليّ.»</span><span class="arw">+</span></summary>
+      <div class="ans">ممتاز — معناها يثقون فيك أنت لا بتطبيق. لكن كم مكالمة تضيع ليلة الزحمة؟ ولما تسكّر، تسكّر المكالمات — والتطبيق ما يسكّر أبداً. نخلي اللي تسويه موثوقاً، وأرقامهم <b>مكتوبة عندك</b> لا في ذاكرتك.</div></details>
+    <details class="obj"><summary><span>«المنصات بتسحقني على أي حال.»</span><span class="arw">+</span></summary>
+      <div class="ans">لو حاربتهم بسلاحهم — سرعة وأساطيل وخصم — بتخسر. لكن عندك ما لا يملكونه: أنت <b>الحي</b>. الناس تعرفك، والتطبيق غريب بشعار. طريق النجاة أن تملك العلاقة لدرجة أن العميل يجيك أنت والتطبيق مجرد خيار.</div></details>
+    <details class="obj"><summary><span>«أنا مو تقني / معقّدة.»</span><span class="arw">+</span></summary>
+      <div class="ans">إذن بنيتها للشخص الغلط لو احتاجت منك تقنية. أنا أركّب، وموظفك يتعلّم بنص ساعة — يستخدم واتساب؟ إذن يستخدم هذا. وأنا على الجوال طول الشهر. أنت بس تشوف الأرقام.</div></details>
+    <details class="obj"><summary><span>«أنا بسجّل عندهم.»</span><span class="arw">+</span></summary>
+      <div class="ans">سجّل لو تبي — لكن هذا <b>استئجار</b>: عمولة ~18٪+ تأكل هامشك، وتصير «قائمة رقم 412». خلّ تطبيقهم لطلبات زائدة، وقناتك أنت للعلاقة. لا تجعل طلبك الأساسي عندهم.</div></details>
+  </section>
+
+  <!-- 10 -->
+  <section id="s10" class="reveal">
+    <div class="sec-head"><div class="sec-num">10</div>
+      <div><span class="kicker">في جيبك</span><h2>جمل حاسمة + قل / لا تقل</h2></div></div>
+    <div class="lines" style="margin-bottom:16px">
+      <div class="pline">«هم مو مندوب توصيلك — هم <b>مؤجّر</b> يبي يأجّر وصولك لعملائك بـ30٪ ويحتفظ بالمفتاح.»</div>
+      <div class="pline">«في تطبيقهم أنت مو ‹بقالة عبدالحافظ›، أنت <b>رقم 412</b>. عندنا اسمك على كل طلب.»</div>
+      <div class="pline">«أغلى عميل هو اللي تخسره <b>بدون ما تدري</b> إنه راح. هذا يعطيك عيون.»</div>
+      <div class="pline">«نانا جمعت 208 مليون دولار <b>ودخلت محكمة</b>. ما ننافس دعمهم — نقفل علاقتك بعميلك قبل لا تنتهي أموالهم.»</div>
+    </div>
+    <div class="says">
+      <div class="saybox do"><h5>✅ قُل</h5><ul>
+        <li>«جئت أفهم شغلك، لا أبيعك شيئاً اليوم.»</li>
+        <li>«<b>أنت</b> قلت الرقم — مو أنا.»</li>
+        <li>«خلّ كاشيرك، هذا يجي فوقه.»</li>
+        <li>«فرع واحد، 30 يوم، عليّ، وتوقف وقت ما تبي.»</li>
+        <li>«أنت <b>الحي</b> — هذا اللي ما يقدرون ينسخونه.»</li>
+        <li>«وش اللي يخليك أنت تقول نجحت؟»</li>
+      </ul></div>
+      <div class="saybox dont"><h5>❌ لا تقُل</h5><ul>
+        <li>«طريقتك قديمة / أنت متأخر.»</li>
+        <li>قوائم مزايا تقنية ومصطلحات.</li>
+        <li>«بتنقرض إن ما سوّيت» (خلّ الأرقام تهدد، لا أنت).</li>
+        <li>«وقّع اليوم» — أي ضغط لحظي.</li>
+        <li>«بتضاعف مبيعاتك» — وعود مبالغة.</li>
+        <li>«نون دخلت محكمة» (الصحيح: نانا).</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <!-- sources -->
+  <section id="sources" class="reveal">
+    <div class="sec-head"><div class="sec-num">↻</div>
+      <div><span class="kicker">للتحقق قبل الجلسة</span><h2>المصادر</h2></div></div>
+    <div class="src-list">
+      <div class="src-item"><span class="badge green">سعودي</span><a href="https://www.arabnews.com/node/2574628/corporate-news" target="_blank" rel="noopener">Arab News — استثمار كيتا مليار ريال</a></div>
+      <div class="src-item"><span class="badge green">سعودي</span><a href="https://www.zawya.com/en/business/retail-and-consumer/keemart-by-keeta-launches-in-riyadh-starting-with-al-yasmin-and-granada-districts-pxz66apq" target="_blank" rel="noopener">Zawya — إطلاق Keemart في الرياض</a></div>
+      <div class="src-item"><span class="badge green">سعودي</span><a href="https://www.arabnews.com/node/2320381/corporate-news" target="_blank" rel="noopener">Arab News — هنغرستيشن Quick Market</a></div>
+      <div class="src-item"><span class="badge green">سعودي</span><a href="https://www.wamda.com/2025/10/noon-jahez-unite-connect-quick-commerce-food-delivery-kingdom" target="_blank" rel="noopener">Wamda — شراكة نون + جاهز</a></div>
+      <div class="src-item"><span class="badge green">سعودي</span><a href="https://www.fwdstart.me/p/saudi-grocery-delivery-platform-nana-enters-financial-reorganisation-after-raising-over-200m-from-ki" target="_blank" rel="noopener">Fwdstart — إعادة هيكلة نانا (لا نون)</a></div>
+      <div class="src-item"><span class="badge green">سعودي</span><a href="https://www.mewa.gov.sa/en/MediaCenter/News/Pages/News242020.aspx" target="_blank" rel="noopener">وزارة البيئة — هدر الغذاء 33٪</a></div>
+      <div class="src-item"><span class="badge amber">تشبيه</span><a href="https://www.dezerv.in/blog/the-91-market-share-shocker-why-indias-600-billion-grocery-economy-still-belongs-to-kiranas/" target="_blank" rel="noopener">Redseer/Dezerv — بقالات الهند ~90٪</a></div>
+      <div class="src-item"><span class="badge amber">تشبيه</span><a href="https://www.mckinsey.com/industries/retail/our-insights/achieving-profitable-online-grocery-order-fulfillment" target="_blank" rel="noopener">McKinsey — اقتصاد توصيل البقالة</a></div>
+    </div>
+  </section>
+
+  <footer>
+    <p><b>ورقة اجتماع — تطبيق الحي</b><br>أُعدّت في 5 يونيو 2026 · الأرقام ذخيرة نقاش، لا تقرير تدقيق رسمي.</p>
+  </footer>
+</main>
+
+<script>
+(function(){
+  // progress bar
+  var bar=document.getElementById('progress');
+  function onScroll(){
+    var h=document.documentElement,b=document.body;
+    var st=h.scrollTop||b.scrollTop;
+    var sh=(h.scrollHeight||b.scrollHeight)-h.clientHeight;
+    bar.style.width=(sh>0?(st/sh*100):0)+'%';
+  }
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  // reveal on scroll
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+    },{threshold:.08,rootMargin:'0px 0px -40px 0px'});
+    document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+  } else {
+    document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in');});
+  }
+
+  // calculator
+  var ids=['i_cust','i_week','i_churn','i_basket','i_orders','i_lost','i_comm'];
+  var defs={i_cust:200,i_week:150,i_churn:15,i_basket:50,i_orders:20,i_lost:10,i_comm:18};
+  function val(id){var v=parseFloat(document.getElementById(id).value);return isNaN(v)||v<0?0:v;}
+  function fmt(n){return Math.round(n).toLocaleString('en-US')+' ريال';}
+  function calc(){
+    var cust=val('i_cust'),week=val('i_week'),churn=val('i_churn')/100,
+        basket=val('i_basket'),orders=val('i_orders'),lost=val('i_lost')/100,comm=val('i_comm')/100;
+    var loyal=cust*week*52;
+    var risk=loyal*churn;
+    var commCost=orders*basket*365*comm;
+    var lostCost=orders*lost*365*basket;
+    var total=risk+lostCost;
+    document.getElementById('o_loyal').textContent=fmt(loyal);
+    document.getElementById('o_risk').textContent=fmt(risk);
+    document.getElementById('o_comm').textContent=fmt(commCost);
+    document.getElementById('o_lost').textContent=fmt(lostCost);
+    document.getElementById('o_total').textContent=fmt(total);
+  }
+  ids.forEach(function(id){document.getElementById(id).addEventListener('input',calc);});
+  document.getElementById('reset').addEventListener('click',function(){
+    ids.forEach(function(id){document.getElementById(id).value=defs[id];});calc();
+  });
+  calc();
+})();
+</script>
+</body>
+</html>
